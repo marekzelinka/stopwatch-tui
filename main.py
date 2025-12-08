@@ -10,7 +10,15 @@ class TimeDisplay(Digits):
 class Stopwatch(HorizontalGroup):
     """A stopwatch widget."""
 
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Event hanlder called when a button is pressed."""
+        if event.button.id == "start":
+            self.add_class("started")
+        elif event.button.id == "stop":
+            self.remove_class("started")
+
     def compose(self) -> ComposeResult:
+        """Create child widgets of a stopwatch."""
         yield Button("Start", id="start", variant="success")
         yield Button("Stop", id="stop", variant="error")
         yield Button("Reset", id="reset")
@@ -20,6 +28,7 @@ class Stopwatch(HorizontalGroup):
 class StopwatchApp(App):
     """Manage stopwatches in the terminal."""
 
+    CSS_PATH = "stopwatch03.tcss"
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
     def compose(self) -> ComposeResult:
