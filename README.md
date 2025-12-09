@@ -11,7 +11,19 @@ Some notable features include:
 - start/stop stopwatch
 - dark mode support via `d` key shortcut
 
+## Tech
+
+- Python
+- [Textual](https://textual.textualize.io/) - UI framework
+- [uv](https://docs.astral.sh/uv/) - Python package and project manager
+
 ## Get started
+
+### Prerequisites
+
+- [uv](https://docs.astral.sh/uv/)
+
+### Install
 
 Clone the repo:
 
@@ -24,6 +36,8 @@ Install dependencies:
 ```sh
 uv sync
 ```
+
+### Run
 
 Start the TUI app:
 
