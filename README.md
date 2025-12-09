@@ -1,8 +1,8 @@
-# Stopawtch CLI
+# Stopawtch TUI
 
 **A simple stopwatch that lives in your terminal.**
 
-Stopwatch CLI is a simple stopwatch TUI application that run in your terminal.
+Stopwatch is a simple stopwatch TUI app that run in your terminal.
 
 Some notable features include:
 
