@@ -71,24 +71,37 @@ class Stopwatch(HorizontalGroup):
 class StopwatchApp(App):
     """Manage stopwatches in the terminal."""
 
-    CSS_PATH = "stopwatch03.tcss"
-    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
+    CSS_PATH = "stopwatch.tcss"
+
+    BINDINGS = [
+        ("d", "toggle_dark", "Toggle dark mode"),
+        ("a", "add_stopwatch", "Add"),
+        ("r", "remove_stopwatch", "Remove"),
+    ]
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the stopwatch app."""
         yield Header()
         yield Footer()
-        yield VerticalScroll(
-            Stopwatch(),
-            Stopwatch(),
-            Stopwatch(),
-        )
+        yield VerticalScroll(Stopwatch(), Stopwatch(), Stopwatch(), id="timers")
 
     def action_toogle_dark(self) -> None:
         """Action to toggle dark mode."""
         self.theme = (
             "textual-dark" if self.theme == "textual-light" else "textual-light"
         )
+
+    def action_add_stopwatch(self) -> None:
+        """Called to add a timer."""
+        new_stopwatch = Stopwatch()
+        self.query_one("#timers").mount(new_stopwatch)
+        new_stopwatch.scroll_visible()
+
+    def action_remove_stopwatch(self) -> None:
+        """Called to remove a timer."""
+        timers = self.query("Stopwatch")
+        if timers:
+            timers.last().remove()
 
 
 if __name__ == "__main__":
