@@ -9,20 +9,37 @@ from textual.widgets import Button, Digits, Footer, Header
 class TimeDisplay(Digits):
     """A widget to display elapsed time."""
 
+    # Stores the time the stopwatch was started (in seconds)
     start_time = reactive(monotonic())
+    # Stores the time to be displayed
     time = reactive(0.0)
+    # Stores the total time elapsed between clicking the start and stop buttons
     total = reactive(0.0)
 
     def on_mount(self) -> None:
-        """Event handler called when widget is added to the app."""
+        """Event handler called when widget is added to the app.
+
+        Creates a timer in pause mode, that calls self.update_time sixty (60) times a second.
+
+        We do not want to update the time until the user hits the start button.
+        """
         self.update_timer = self.set_interval(1 / 60, self.update_time, pause=True)
 
     def update_time(self) -> None:
-        """Method to update the time to the current time."""
+        """Method to update the time to the current time.
+
+        Calculates the time elapsed since the widget started.
+
+        Adds self.total to the current time to account for the time between any previous clicks
+        of the start and stop buttons.
+        """
         self.time = self.total + (monotonic() - self.start_time)
 
+    # Gets called everytime the time reactive attribute is modified.
     def watch_time(self, time: float) -> None:
-        """Called when the time attribute changes."""
+        """Called when the time attribute changes.
+
+        Converts the elapsed time to a string and updates the widget."""
         minutes, seconds = divmod(time, 60)
         hours, minutes = divmod(minutes, 60)
         self.update(f"{hours:02,.0f}:{minutes:02.0f}:{seconds:05.2f}")
